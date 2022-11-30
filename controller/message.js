@@ -16,7 +16,12 @@ const addMeassage= async (req,res) => {
 
 const getMeassage = async(req,res) => {
     try {
-        const response = await Message.findAll();
+        const lastId=req.query.lastmsg||0;
+        if(lastId===undefined){
+            lastId = 0;
+        }
+        const lastIdN = +lastId;
+        const response = await Message.findAll({offset:lastIdN});
         // console.log(response);
         res.status(200).json({data: response, success: true})
     } 

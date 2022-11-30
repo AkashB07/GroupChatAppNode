@@ -12,8 +12,8 @@ async function login(e)
         const respone = await axios.post(`${url}:3000/user/login`, loginDetails);
         // console.log(respone.name);
         localStorage.setItem('token', respone.token);
-        localStorage.setItem('name', respone.name);
-        localStorage.setItem('email', respone.email);
+        // localStorage.setItem('name', respone.name);
+        // localStorage.setItem('email', respone.email);
         alert(respone.message);
         window.location.href ='../Home/home.html';
     }
