@@ -9,8 +9,12 @@ const addMsgBtn=document.getElementById('addmsgbtn');
 const messageInput=document.getElementById('messageinput');
 
 window.addEventListener('DOMContentLoaded',async()=>{
-    getMessages();
+    // getMessages();
+    setInterval(() => {
+        getMessages();
+    }, 1000);
 })
+
 
 addMsgBtn.addEventListener('click', async ()=>{
     try {
@@ -30,14 +34,13 @@ async function getMessages(){
         const response = await axios.get(`${url}:3000/message/getMessage`,{headers:{"Authorization":token}});
         console.log(response.data);
         const data = response.data;
-        let messages =document.getElementById("messages_cont_ul")
+        let messages =document.getElementById("messages_cont_ul");
+        messages.innerHTML = '';
         for(i=0; i<response.data.length; i++){
             messages.innerHTML = messages.innerHTML+ ` <li class="even"><strong>${data[i].username} :</strong> ${data[i]. msg} </li>`;
         }
         
     } catch (error) {
         console.log(error)
-    }
-    
-    
+    } 
 }
