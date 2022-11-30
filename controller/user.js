@@ -58,8 +58,10 @@ const login = async (req, res) => {
                     throw new Error('Something went wrong')
                 }
                 if(result){
-                    // console.log('123')
-                    return res.status(200).json({message: "User logged in successfully", token: generateAccessToken(user[0].id, user[0].name), success: true})
+                    const name = user[0].name;
+                    const email = user[0].email;
+                    return res.status(200).json({message: "User logged in successfully", token: generateAccessToken(user[0].id, user[0].name),
+                    name:name, email:email, success: true})
                 }
                 else{
                     return  res.status(401).json({message: 'Password is incorrect', success: false});
