@@ -4,6 +4,7 @@ const name = localStorage.getItem('name');
 const email = localStorage.getItem('email');
 // console.log(name, email);
 
+
 const addMsgBtn=document.getElementById('addmsgbtn');
 const messageInput=document.getElementById('messageinput')
 
