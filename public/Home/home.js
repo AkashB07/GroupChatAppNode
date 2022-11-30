@@ -7,7 +7,6 @@ const email = localStorage.getItem('email');
 const addMsgBtn=document.getElementById('addmsgbtn');
 const messageInput=document.getElementById('messageinput')
 
-
 addMsgBtn.addEventListener('click', async ()=>{
     try {
         let msg=messageInput.value
