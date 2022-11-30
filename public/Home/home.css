@@ -41,7 +41,7 @@
   
   
   .container .messages_cont ul li {
-    text-decoration: none;
+    text-decoration: solid;
     list-style: none;
     font-size: large;
     margin-top: 10px;
