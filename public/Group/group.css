@@ -1,0 +1,58 @@
+body{
+    margin: 0px;
+    background-color: rgb(191, 240, 226);
+
+}
+
+header{
+
+    height: 20%;
+}
+
+h1{
+    text-align: center;
+    color: rgba(1, 3, 3, 0.791);
+}
+
+h2{
+    text-align: center;
+    color: rgba(92, 78, 45, 0.791);
+}
+
+h3{
+
+    color: rgba(92, 78, 45, 0.791);
+}
+
+section{
+    margin-top: 4%;
+    margin-right: 60%;
+    height:30%;
+    text-align: center;
+}
+
+article{
+
+    margin-right: 60%;
+    height:50%;
+    text-align: center;
+
+}
+
+aside{
+
+    margin-left: 50%;
+    margin-top: -30.7%;
+    
+}
+
+li{
+    padding-left: 20%;
+    text-align: left;
+}
+
+button{
+ 
+    background-color: rgb(50, 78, 68);
+    color: whitesmoke;
+}

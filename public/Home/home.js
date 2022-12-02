@@ -3,25 +3,21 @@ const token = localStorage.getItem('token');
 const messages =document.getElementById("messages_cont_ul");
 
 
-// console.log(name, email);
-
 const totalMsg = [];
 const names = []
-
-
 
 const addMsgBtn=document.getElementById('addmsgbtn');
 const messageInput=document.getElementById('messageinput');
 
 window.addEventListener('DOMContentLoaded',async()=>{
     try {
-        const msg = await localStorage.getItem('totalMsgs');
-        const nam = await localStorage.getItem('name');
-        let msg1=msg.split(',');
-        let nam1=nam.split(',')
-        await displayMsg(nam1, msg1);
+        // const msg = await localStorage.getItem('totalMsgs');
+        // const nam = await localStorage.getItem('name');
+        // let msg1=msg.split(',');
+        // let nam1=nam.split(',')
+        // await displayMsg(nam1, msg1);
 
-        // getMessages();
+        getMessages();
         // setInterval(() => {
         //     getMessages();
         // }, 1000);
@@ -32,10 +28,10 @@ window.addEventListener('DOMContentLoaded',async()=>{
     }  
 })
 
-const btn = document.getElementById('addmsgbtn');
-btn.addEventListener('click', () => {
-    getMessages();
-})
+// const btn = document.getElementById('addmsgbtn');
+// btn.addEventListener('click', () => {
+//     getMessages();
+// })
 
 async function displayMsg(nam1, msg1){
     try {
@@ -83,11 +79,65 @@ async function getMessages(){
             var names3 = [...names, ...names2]
         }
         
-        localStorage.setItem('totalMsgs', totalMsg3);
-        localStorage.setItem('name', names3);
+        // localStorage.setItem('totalMsgs', totalMsg3);
+        // localStorage.setItem('name', names3);
        
         
     } catch (error) {
         console.log(error)
     } 
 }
+
+
+
+
+
+// const url = 'http://localhost';
+// const token = localStorage.getItem('token');
+// const name = localStorage.getItem('name');
+// const messages =document.getElementById("messages_cont_ul");
+
+// const addMsgBtn=document.getElementById('addmsgbtn');
+// const messageInput=document.getElementById('messageinput');
+
+// window.addEventListener('DOMContentLoaded',async()=>{
+//     try {
+//         getMessages(); 
+//         console.log(name);   
+//     } 
+//     catch (error) {
+//         console.log(error)
+//     }  
+// })
+
+
+// addMsgBtn.addEventListener('click', async ()=>{
+//     try {
+//         let msg=messageInput.value;
+//         // console.log(messageInput.value)
+//         messageInput.value="";
+//         await axios.post(`${url}:3000/message/addMessage`, {msg:msg}, {headers:{"Authorization":token}});
+//         alert('Message sent successfully');
+//     } 
+//     catch (error) {
+//         alert(error);
+//     } 
+// })
+
+// async function getMessages(){
+//     try {
+//         const msg = await localStorage.getItem('totalMsgs');
+//         let msg1=msg.split(',');
+//         const msLength = 0;
+//         const response = await axios.get(`${url}:3000/message/getMessage?lastmsg=${msLength}`,{headers:{"Authorization":token}});
+//         // console.log(response.data);
+//         const data = response.data;
+//         let messages =document.getElementById("messages_cont_ul")
+//         for(i=0; i<response.data.length; i++){
+//             messages.innerHTML = messages.innerHTML+ ` <li class="even"><strong>${data[i].username} :</strong> ${data[i]. msg} </li>`;
+//         }
+        
+//     } catch (error) {
+//         console.log(error)
+//     } 
+// }

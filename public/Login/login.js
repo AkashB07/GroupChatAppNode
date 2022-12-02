@@ -10,12 +10,12 @@ async function login(e)
             password: e.target.password.value
         }
         const respone = await axios.post(`${url}:3000/user/login`, loginDetails);
-        // console.log(respone.name);
+        // console.log(respone.user);
+        // console.log(JSON.stringify(respone.user));
         localStorage.setItem('token', respone.token);
-        // localStorage.setItem('name', respone.name);
-        // localStorage.setItem('email', respone.email);
+        localStorage.setItem('user', JSON.stringify(respone.user));
         alert(respone.message);
-        window.location.href ='../Home/home.html';
+        window.location.href ='../Group/group.html';
     }
     catch (err) 
     {

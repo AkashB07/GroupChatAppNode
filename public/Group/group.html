@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./group.css"/>
+</head>
+<body>
+  <header>
+    <h1>Group Chat App</h1>
+  </header>
+
+  <section class="formgroup">
+    <h2>Create Group</h2><hr>
+    <form onsubmit="creategroup(event)" id="formgroup">
+      <label class="groupele"><strong>Group Name : </strong></label>
+      <input type="text" id="groupname" /><br><br>
+      <button type="submit" class="groupele" id="crtgrpbtn">
+        Create Group
+      </button>
+    </form><br><br>
+  </section>
+    
+  <article class="yourgroups">
+    <div>
+      <h2 id="smallheader">Your Groups</h2><hr>
+      <div id="mygroups"></div>
+    </div><br>
+
+    <div>
+      <h2 id="smallheader">All Users</h2><hr>
+      <div id="allusers"></div>
+    </div>
+  </article>
+  
+  <aside class="chatbox">
+    <h2 id="chatheader">Chat Box</h2><hr>
+    <h3 id="memberheader"></h3>
+    <div id="mygrpchats">
+    
+    <div id="groupmembers">
+        
+    </div>
+    <div id="groupmembers2">
+  
+    </div>
+    <div id="addmems">
+  
+    </div><hr>
+      
+    <div id="allchats">
+      
+    </div><hr>
+
+       
+  </aside>
+
+  <script src="./group.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.2.0/axios.min.js"></script>
+</body>
+</html>

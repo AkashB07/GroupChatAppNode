@@ -1,4 +1,5 @@
 const User = require('../modles/user');
+const userGroup = require('../modles/userGroup');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -52,6 +53,7 @@ const login = async (req, res) => {
         }
         const user = await User.findAll({ where : { email }})
         // console.log(user[0])
+        const usergroup = await userGroup.findAll({where:{userId:user[0].id}})
         if(user.length > 0){
             bcrypt.compare(password, user[0].password, (err, result) => {
                 if(err){
@@ -61,7 +63,7 @@ const login = async (req, res) => {
                     const name = user[0].name;
                     const email = user[0].email;
                     return res.status(200).json({message: "User logged in successfully", token: generateAccessToken(user[0].id, user[0].name),
-                    name:name, email:email, success: true})
+                    user: user, usergroup: usergroup, success: true})
                 }
                 else{
                     return  res.status(401).json({message: 'Password is incorrect', success: false});
