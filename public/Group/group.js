@@ -48,8 +48,8 @@ async function getGroups(){
         for (let i = 0; i < response.data.length; i++) {
             let groupname = response.data[i].group.groupname;
             let groupid = response.data[i].group.id;
-            content += `<div class="grpdetail"><strong class="grpele">${groupname} - </strong><button type="submit" 
-            onclick="goToYourGroup(${groupid})" class="grpele btn" id="jumpbtn">Go to Group</button></div><br>`;
+            content += `<li class="grpdetail"><strong class="grpele">${groupname} - </strong><button type="submit" 
+            onclick="goToYourGroup(${groupid})" class="grpele btn" id="jumpbtn">Go to Group</button></li><br>`;
         }
         group.innerHTML = content;
     } 
@@ -57,20 +57,24 @@ async function getGroups(){
         alert(error);
     }
 }
-{/* <div><label>Enter your message:   
-            </label><input type="text" id=${groupid}><button onclick="sendMessage(${groupid})" id="sendbtn">Send</button></div> */}
+
 async function sendMessage(groupid){
     try {
         
         let message = document.getElementById(groupid).value;
-        document.getElementById(groupid).value ='';
+        if(message.length<1)
+        {
+            alert('Plese enter message');
+        }
+        else{
+            document.getElementById(groupid).value ='';
         let obj = {
             message: message
         };
         // console.log(groupid)
         const respone = await axios.post(`${url}:3000/message/addMessage/${groupid}`, {msg:obj}, {headers:{"Authorization":token}});
         alert(respone.message);
-        
+        }
     } 
     catch (error) {
         alert(error);
@@ -87,8 +91,8 @@ async function getMessages(groupid){
         const response = await axios.get(`${url}:3000/message/getMessage/${groupid}`, {headers:{"Authorization":token}});
         // console.log(response.data[1].username);
         const allMessages = document.getElementById("allchats");
-        let content = `<h3 id="chatheader1">Group Chats</h3><div><strong>Enter your message:   
-        </strong><input type="text" id=${groupid}><button onclick="sendMessage(${groupid})" id="sendbtn">Send</button></div><br>`;
+        let content = `<h3 id="chatheader1">Group Chats</h3><div><strong><label>Enter your message: </label></strong>
+        <input type="text" id=${groupid} required><button onclick="sendMessage(${groupid})" id="sendbtn">Send</button></div><br>`;
  
         for (let i = 0; i < response.data.length; i++) {
             let message = response.data[i].msg;
@@ -131,7 +135,7 @@ async function getMembers(groupid){
             if (userId[0].id == id) {
                 content += "";
                 if (isAdmin) {
-                    onemorecontent = `<label class="addduser"><strong>Add User : </strong></label><input type = "text" id="name" class="addduser">
+                    onemorecontent = `<label class="addduser"><strong>Add User : </strong></label><input type = "text" id="name" class="addduser" required>
                     <button onclick="addMember(${groupid})">Add</button>`;
                 }
             } 
@@ -145,14 +149,14 @@ async function getMembers(groupid){
                         content += `<div class="userdiv"><strong class="userele" id="username">${name}</strong>
                         <button class="userele" onclick="makeAdmin(${groupid},${id})">Make Admin</button>
                         <button class="userele" onclick= "removeMember(${groupid},${id})">Remove as Member</button></div><br>`;
-                        onemorecontent = `<label class="addduser"><strong>Add User : </strong></label><input type = "text" id="name" class="addduser">
+                        onemorecontent = `<label class="addduser"><strong>Add User : </strong></label><input type = "text" id="name" class="addduser" required>
                                 <button onclick="addMember(${groupid})">Add</button>`;
                     }
                     if (isAdmin == true) {        
                         content = `<div class="userdiv"><strong class="userele">${name}</strong>
                         <button class="userele" onclick="removeAdmin(${groupid},${id})">Remove as Admin</button>        
                         <button class="userele" onclick= "removeMember(${groupid},${id})">Remove as Member</button></div><br>`;
-                        onemorecontent = `<label class="addduser"><strong>Add User : </strong></label><input type = "text" id="name" class="addduser">
+                        onemorecontent = `<label class="addduser"><strong>Add User : </strong></label><input type = "text" id="name" class="addduser" required>
                         <button onclick="addMember(${groupid})">Add</button>`;
                     } 
                 }
@@ -171,17 +175,23 @@ async function getMembers(groupid){
 async function addMember(groupid){
     try {
         let name = document.getElementById("name").value;
-        let obj = {
-          name: name,
-        }; 
-        const response = await axios.post(`${url}:3000/admin/addMember/${groupid}`, obj);
-        // console.log(response);
-        if (response.success) {    
-            alert(response.message);
-        } 
-        else {
-            throw new Error();
+        if(name.length<1)
+        {
+            alert('Plese enter the Name');
         }
+        else{
+            let obj = {
+                name: name,
+            }; 
+            const response = await axios.post(`${url}:3000/admin/addMember/${groupid}`, obj);
+            // console.log(response);
+            if (response.success) {    
+                alert(response.message);
+            } 
+            else {
+                throw new Error();
+            }
+        }  
     } 
     catch (error) {
         alert(error);

@@ -14,6 +14,8 @@ async function login(e)
         // console.log(JSON.stringify(respone.user));
         localStorage.setItem('token', respone.token);
         localStorage.setItem('user', JSON.stringify(respone.user));
+        e.target.email.value='';
+        e.target.password.value='';
         alert(respone.message);
         window.location.href ='../Group/group.html';
     }

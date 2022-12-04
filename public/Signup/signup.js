@@ -17,6 +17,10 @@ async function signup(e)
         // console.log(respone.succes);
         if(respone.succes)
         {
+            e.target.name.value='';
+            e.target.email.value='';
+            e.target.phonenumber.value='';
+            e.target.password.value='';
             alert("Successfuly signed up");
             window.location.href ="../Login/login.html";
         }
