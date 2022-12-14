@@ -16,13 +16,19 @@ const addMember = async (req, res) => {
     try {
         const groupId = req.params.id;
         // console.log(req);
-        const name = req.body.name;
-        if(isstringinvalid(name)){
+        const email = req.body.email;
+        if(isstringinvalid(email)){
             return res.status(400).json({err: "Bad parameters."});
         }
-        const user = await  User.findOne({ where: { name: name } });
-        await userGroup.create({ isadmin: false, userId: user.id, groupId: groupId,});
-        res.status(201).json({ message: "User added to the group", success: true });
+        const user = await  User.findOne({ where: { email: email } });
+        const respone = await userGroup.findOne({ where: { userId: user.id }});
+        if(respone){
+            return res.status(201).json({ message: "User already exists", success: true });
+        }
+        else{
+            await userGroup.create({ isadmin: false, userId: user.id, groupId: groupId});
+            res.status(201).json({ message: "User added to the group", success: true });
+        }
     } 
     catch (error) {
         res.status(500).json({message: error, success: false});
@@ -64,6 +70,7 @@ const removeAdmin = async (req, res) => {
         res.status(500).json({message: error, success: false}); 
     }
 }
+
 
 module.exports = {
    addMember,

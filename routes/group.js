@@ -11,6 +11,6 @@ router.get('/getGroups', userauthentication.authenticate, groupController.getGro
 
 router.get('/getMembers/:id', userauthentication.authenticate, groupController.getMembers);
 
-router.get('/getAllUsers', groupController.getAllUsers);
+router.get('/getAllUsers',userauthentication.authenticate, groupController.getAllUsers);
 
 module.exports=router;

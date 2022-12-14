@@ -11,13 +11,12 @@ const Group=sequelize.define('group',{
     },
     groupname:{
         type:Sequelize.STRING,
-        allowNull:false
-
+        allowNull:false,
+        unique: true
     },
     createdby:{
         type:Sequelize.STRING,
     }
-
-    
+  
 })
 module.exports=Group

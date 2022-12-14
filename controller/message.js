@@ -1,4 +1,13 @@
-const Message=require('../modles/messages')
+const Message=require('../modles/messages');
+
+function isvalid(string){
+    if(string == undefined || string.length === 0){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
 const addMeassage= async (req,res) => {
     try {
@@ -6,6 +15,9 @@ const addMeassage= async (req,res) => {
         const groupid = req.params.id
         // console.log(req.params.id);
         // console.log(msg.message);
+        if(isvalid(msg)){
+            return res.status(400).json({succese: false, message: "Please enter"});
+        } 
         await Message.create({ username:req.user.name, msg:msg, userId:req.user.id, groupId: groupid })
         res.status(200).json({message: "Message sent successfully", success: true})
     } 

@@ -24,9 +24,11 @@ async function creategroup(event){
         let obj = {
           groupname: groupname
         };
-        const response = await axios.post(`${url}:3000/group/createGroup`, obj, {headers: { Authorization: token },});
+        const response = await axios.post(`${url}:3000/group/createGroup`, obj, {headers: { Authorization: token }});
         // console.log(response.message);
         if (response.success) {
+            getGroups();
+            document.getElementById("groupname").value ='';
             alert(response.message);
           } 
           else {
@@ -34,7 +36,9 @@ async function creategroup(event){
           }
     } 
     catch (error) {
-        alert(error);
+        document.getElementById("groupname").value ='';
+        alert('group already exists');
+        console.log(error.message);
     }
 }
 
@@ -45,6 +49,7 @@ async function getGroups(){
         localStorage.setItem("usergroup", JSON.stringify(response.data));
         const group = document.getElementById("mygroups");
         let content = "";
+        console.log(response.data[0])
         for (let i = 0; i < response.data.length; i++) {
             let groupname = response.data[i].group.groupname;
             let groupid = response.data[i].group.id;
@@ -54,7 +59,7 @@ async function getGroups(){
         group.innerHTML = content;
     } 
     catch (error) {
-        alert(error);
+        console.log(error);
     }
 }
 
@@ -64,20 +69,21 @@ async function sendMessage(groupid){
         let message = document.getElementById(groupid).value;
         if(message.length<1)
         {
-            alert('Plese enter message');
+            alert('Plese enter the message');
         }
         else{
             document.getElementById(groupid).value ='';
-        let obj = {
+            let obj = {
             message: message
         };
         // console.log(groupid)
         const respone = await axios.post(`${url}:3000/message/addMessage/${groupid}`, {msg:obj}, {headers:{"Authorization":token}});
+        getMessages(groupid);
         alert(respone.message);
         }
     } 
     catch (error) {
-        alert(error);
+        alert(error.message);
     }
 }
 
@@ -135,7 +141,7 @@ async function getMembers(groupid){
             if (userId[0].id == id) {
                 content += "";
                 if (isAdmin) {
-                    onemorecontent = `<label class="addduser"><strong>Add User : </strong></label><input type = "text" id="name" class="addduser" required>
+                    onemorecontent = `<label class="addduser"><strong>Add User through Email: </strong></label><input type="email" id="email" class="addduser" required>
                     <button onclick="addMember(${groupid})">Add</button>`;
                 }
             } 
@@ -149,14 +155,14 @@ async function getMembers(groupid){
                         content += `<div class="userdiv"><strong class="userele" id="username">${name}</strong>
                         <button class="userele" onclick="makeAdmin(${groupid},${id})">Make Admin</button>
                         <button class="userele" onclick= "removeMember(${groupid},${id})">Remove as Member</button></div><br>`;
-                        onemorecontent = `<label class="addduser"><strong>Add User : </strong></label><input type = "text" id="name" class="addduser" required>
-                                <button onclick="addMember(${groupid})">Add</button>`;
+                        onemorecontent = `<label class="addduser"><strong>Add User through Email: </strong></label><input type="email" id="email" class="addduser" required>
+                                <button onclick="addMember(${groupid})">Add</button> `;
                     }
                     if (isAdmin == true) {        
                         content = `<div class="userdiv"><strong class="userele">${name}</strong>
                         <button class="userele" onclick="removeAdmin(${groupid},${id})">Remove as Admin</button>        
                         <button class="userele" onclick= "removeMember(${groupid},${id})">Remove as Member</button></div><br>`;
-                        onemorecontent = `<label class="addduser"><strong>Add User : </strong></label><input type = "text" id="name" class="addduser" required>
+                        onemorecontent = `<label class="addduser"><strong>Add User through Email: </strong></label><input type="email" id="email" class="addduser" required>
                         <button onclick="addMember(${groupid})">Add</button>`;
                     } 
                 }
@@ -174,17 +180,19 @@ async function getMembers(groupid){
 
 async function addMember(groupid){
     try {
-        let name = document.getElementById("name").value;
-        if(name.length<1)
+        let email = document.getElementById("email").value;
+        // console.log(email);
+        if(email.length<1)
         {
-            alert('Plese enter the Name');
+            alert('Plese enter the email');
         }
         else{
             let obj = {
-                name: name,
+                email: email,
             }; 
-            const response = await axios.post(`${url}:3000/admin/addMember/${groupid}`, obj);
+            const response = await axios.post(`${url}:3000/admin/addMember/${groupid}`, obj, {headers:{"Authorization":token}});
             // console.log(response);
+            getMembers(groupid);
             if (response.success) {    
                 alert(response.message);
             } 
@@ -194,14 +202,15 @@ async function addMember(groupid){
         }  
     } 
     catch (error) {
-        alert(error);
+        console.log(error);
     }
 }
 
 async function removeMember(groupid, userid){
     try {
-        const response = await axios.post(`${url}:3000/admin/removeMember/${groupid}`, { userid: userid });
-        if (response.success) {    
+        const response = await axios.post(`${url}:3000/admin/removeMember/${groupid}`, { userid: userid }, {headers:{"Authorization":token}});
+        if (response.success) { 
+            getMembers(groupid);   
             alert(response.message);
         } 
         else {
@@ -215,8 +224,9 @@ async function removeMember(groupid, userid){
 
 async function makeAdmin(groupid, userid){
     try {
-        const response = await axios.post(`${url}:3000/admin/makeAdmin/${groupid}`, { userid: userid });
-        if (response.success) {    
+        const response = await axios.post(`${url}:3000/admin/makeAdmin/${groupid}`, { userid: userid }, {headers:{"Authorization":token}});
+        if (response.success) {  
+            getMembers(groupid);  
             alert(response.message);
         } 
         else {
@@ -230,8 +240,9 @@ async function makeAdmin(groupid, userid){
 
 async function removeAdmin(groupid, userid){
     try {
-        const response = await axios.post(`${url}:3000/admin/removeAdmin/${groupid}`, { userid: userid });
-        if (response.success) {    
+        const response = await axios.post(`${url}:3000/admin/removeAdmin/${groupid}`, { userid: userid }, {headers:{"Authorization":token}});
+        if (response.success) { 
+            getMembers(groupid);   
             alert(response.message);
         } 
         else {
@@ -248,7 +259,7 @@ async function removeAdmin(groupid, userid){
 async function getAllUsers()
 {
     try {
-        const response = await axios.get(`${url}:3000/group/getAllUsers`);
+        const response = await axios.get(`${url}:3000/group/getAllUsers`, {headers:{"Authorization":token}});
         console.log(response.data.length);
         const allUsers = document.getElementById("allusers");
         let names ='';
@@ -263,6 +274,6 @@ async function getAllUsers()
         
     } 
     catch (error) {
-        
+        console.log(error)
     }
 }

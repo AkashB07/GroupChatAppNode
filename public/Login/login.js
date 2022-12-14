@@ -21,6 +21,6 @@ async function login(e)
     }
     catch (err) 
     {
-        alert(err.message);
+        console.log(err);
     }
 }

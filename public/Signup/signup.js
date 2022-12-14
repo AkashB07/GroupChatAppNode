@@ -31,6 +31,6 @@ async function signup(e)
     } 
     catch (error) 
     {
-        alert(error);
+        alert("Email already exists");
     }
 }
