@@ -133,7 +133,7 @@ async function getMembers(groupid){
         let onemoreparent = document.getElementById("addmems");
         let content = "";
         let onemorecontent = "";
-        let anothercontent = '';
+        let anothercontent = "";
         for (let i = 0; i < response.data.length; i++) {
             let name = response.data[i].user.name;
             let id = response.data[i].user.id;
@@ -151,15 +151,15 @@ async function getMembers(groupid){
                     content += `<div class="userdiv"><strong class="userele">${name}</strong>`;
                 } 
                 else {
-                    if (usergroup.isadmin == true) {
+                    if (isAdmin == false ) {
                         content += `<div class="userdiv"><strong class="userele" id="username">${name}</strong>
                         <button class="userele" onclick="makeAdmin(${groupid},${id})">Make Admin</button>
                         <button class="userele" onclick= "removeMember(${groupid},${id})">Remove as Member</button></div><br>`;
                         onemorecontent = `<label class="addduser"><strong>Add User through Email: </strong></label><input type="email" id="email" class="addduser" required>
                                 <button onclick="addMember(${groupid})">Add</button> `;
                     }
-                    if (isAdmin == true) {        
-                        content = `<div class="userdiv"><strong class="userele">${name}</strong>
+                    else if (isAdmin == true) {        
+                        content += `<div class="userdiv"><strong class="userele">${name}</strong>
                         <button class="userele" onclick="removeAdmin(${groupid},${id})">Remove as Admin</button>        
                         <button class="userele" onclick= "removeMember(${groupid},${id})">Remove as Member</button></div><br>`;
                         onemorecontent = `<label class="addduser"><strong>Add User through Email: </strong></label><input type="email" id="email" class="addduser" required>
